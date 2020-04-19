@@ -6,7 +6,7 @@ require_once ('connection.php');
 $query_menu_categories = "SELECT
 	*
 FROM
-	categoriges
+	categories
 WHERE
 	id = 16 OR id = 15 OR id = 13 OR id = 9 OR id = 8 OR id = 11  
 ORDER BY id DESC";
@@ -28,7 +28,7 @@ $query_posts = "SELECT
 	p.*, c.title as category, a.name 
 FROM
 	posts p
-	LEFT JOIN categoriges c ON p.category_id = c.id 
+	LEFT JOIN categories c ON p.category_id = c.id 
 	LEFT JOIN authors a ON p.author_id = a.id
 WHERE
 	p.STATUS = 1 AND p.category_id = ".$id."
@@ -47,6 +47,29 @@ $posts = array();
 while ($row = $result_posts->fetch_assoc()) {
 	$posts[] = $row;
 }
+
+// Load Most Read
+$query_most_read = "SELECT
+	p.*, c.title as category, a.name 
+FROM
+	posts p
+	LEFT JOIN categories c ON p.category_id = c.id 
+	LEFT JOIN authors a ON p.author_id = a.id
+WHERE
+	p.STATUS = 1 AND p.category_id = ".$id."
+ORDER BY
+	p.created_at DESC 
+LIMIT 1,4 ";
+
+// Thuc thi cau lenh
+$result_most_read = $conn -> query($query_most_read);
+
+// Tao 1 mang de chua du lieu
+$most_read = array();
+
+while ($row = $result_most_read->fetch_assoc()) {
+	$most_read[] = $row;
+}    
 
 ?>
 
@@ -83,13 +106,13 @@ while ($row = $result_posts->fetch_assoc()) {
 							<!-- post -->
 							<div class="col-md-12">
 								<div class="post post-thumb">
-									<a class="post-img" href="blog-posx.php"><img src="<?php echo $post_1["thumbnail"] ?>" alt=""></a>
+									<a class="post-img" href="blog-post.php?id=<?php echo $post_1["id"] ?>"><img src="img/<?php echo $post_1["thumbnail"] ?>" alt=""></a>
 									<div class="post-body">
 										<div class="post-meta">
 											<a class="post-category cat-<?php echo $post_1["category_id"] % 4 + 1 ?>" href="#"><?php echo $post_1["category"] ?></a>
 											<span class="post-date"><?php echo $post_1["created_at"] ?></span>
 										</div>
-										<h3 class="post-title"><a href="blog-posx.php"><?php echo $post_1["title"] ?></a></h3>
+										<h3 class="post-title"><a href="blog-post.php?id=<?php echo $post_1["id"] ?>"><?php echo $post_1["title"] ?></a></h3>
 									</div>
 								</div>
 							</div>
@@ -100,13 +123,13 @@ while ($row = $result_posts->fetch_assoc()) {
 						    ?>
 							<div class="col-md-6">
 								<div class="post">
-									<a class="post-img" href="blog-posx.php"><img src="<?php echo $post["thumbnail"] ?>" alt="" width = "400px" height = "250px"></a>
+									<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="img/<?php echo $post["thumbnail"] ?>" alt="" width = "400px" height = "250px"></a>
 									<div class="post-body">
 										<div class="post-meta">
 											<a class="post-category cat-<?php echo $post["category_id"] % 4 + 1 ?>" href="#"><?php echo $post_1["category"] ?></a>
 											<span class="post-date"><?php echo $post["created_at"] ?></span>
 										</div>
-										<h3 class="post-title"><a href="blog-posx.php"><?php echo $post["title"] ?></a></h3>
+										<h3 class="post-title"><a href="blog-post.php?id=<?php echo $post["id"] ?>"><?php echo $post["title"] ?></a></h3>
 									</div>
 								</div>
 							</div>
@@ -128,13 +151,13 @@ while ($row = $result_posts->fetch_assoc()) {
 							<!-- post -->
 							<div class="col-md-12">
 								<div class="post post-row">
-									<a class="post-img" href="blog-posx.php"><img src="./img/post-2.jpg" alt=""></a>
+									<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="./img/post-2.jpg" alt=""></a>
 									<div class="post-body">
 										<div class="post-meta">
 											<a class="post-category cat-2" href="#">JavaScript</a>
 											<span class="post-date">March 27, 2018</span>
 										</div>
-										<h3 class="post-title"><a href="blog-posx.php">Ask HN: Does Anybody Still Use JQuery?</a></h3>
+										<h3 class="post-title"><a href="blog-post.php?id=<?php echo $post["id"] ?>">Ask HN: Does Anybody Still Use JQuery?</a></h3>
 										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>
 									</div>
 								</div>
@@ -144,13 +167,13 @@ while ($row = $result_posts->fetch_assoc()) {
 							<!-- post -->
 							<div class="col-md-12">
 								<div class="post post-row">
-									<a class="post-img" href="blog-posx.php"><img src="./img/post-5.jpg" alt=""></a>
+									<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="./img/post-5.jpg" alt=""></a>
 									<div class="post-body">
 										<div class="post-meta">
 											<a class="post-category cat-2" href="#">JavaScript</a>
 											<span class="post-date">March 27, 2018</span>
 										</div>
-										<h3 class="post-title"><a href="blog-posx.php">Microsoft’s TypeScript Fills A Long-standing Void In JavaScript</a></h3>
+										<h3 class="post-title"><a href="blog-post.php?id=<?php echo $post["id"] ?>">Microsoft’s TypeScript Fills A Long-standing Void In JavaScript</a></h3>
 										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>
 									</div>
 								</div>
@@ -160,13 +183,13 @@ while ($row = $result_posts->fetch_assoc()) {
 							<!-- post -->
 							<div class="col-md-12">
 								<div class="post post-row">
-									<a class="post-img" href="blog-posx.php"><img src="./img/post-3.jpg" alt=""></a>
+									<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="./img/post-3.jpg" alt=""></a>
 									<div class="post-body">
 										<div class="post-meta">
 											<a class="post-category cat-2" href="#">JavaScript</a>
 											<span class="post-date">March 27, 2018</span>
 										</div>
-										<h3 class="post-title"><a href="blog-posx.php">Javascript : Prototype vs Class</a></h3>
+										<h3 class="post-title"><a href="blog-post.php?id=<?php echo $post["id"] ?>">Javascript : Prototype vs Class</a></h3>
 										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>
 									</div>
 								</div>
@@ -176,13 +199,13 @@ while ($row = $result_posts->fetch_assoc()) {
 							<!-- post -->
 							<div class="col-md-12">
 								<div class="post post-row">
-									<a class="post-img" href="blog-posx.php"><img src="./img/post-1.jpg" alt=""></a>
+									<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="./img/post-1.jpg" alt=""></a>
 									<div class="post-body">
 										<div class="post-meta">
 											<a class="post-category cat-2" href="#">JavaScript</a>
 											<span class="post-date">March 27, 2018</span>
 										</div>
-										<h3 class="post-title"><a href="blog-posx.php">Why Node.js Is The Coolest Kid On The Backend Development Block!</a></h3>
+										<h3 class="post-title"><a href="blog-post.php?id=<?php echo $post["id"] ?>">Why Node.js Is The Coolest Kid On The Backend Development Block!</a></h3>
 										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam...</p>
 									</div>
 								</div>
@@ -209,36 +232,18 @@ while ($row = $result_posts->fetch_assoc()) {
 						<!-- post widget -->
 						<div class="aside-widget">
 							<div class="section-title">
-								<h2>Most Read</h2>
+								<h2>Bài viết liên quan</h2>
 							</div>
 
+							<?php foreach ($most_read as $post) {
+                            ?>
 							<div class="post post-widget">
-								<a class="post-img" href="blog-posx.php"><img src="./img/widget-1.jpg" alt=""></a>
+								<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="img/<?php echo $post["thumbnail"] ?>" alt=""></a>
 								<div class="post-body">
-									<h3 class="post-title"><a href="blog-posx.php">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>
+									<h3 class="post-title"><a href="blog-post.php?id=<?php echo $post["id"] ?>"><?php echo $post["description"] ?></a></h3>
 								</div>
 							</div>
-
-							<div class="post post-widget">
-								<a class="post-img" href="blog-posx.php"><img src="./img/widget-2.jpg" alt=""></a>
-								<div class="post-body">
-									<h3 class="post-title"><a href="blog-posx.php">Pagedraw UI Builder Turns Your Website Design Mockup Into Code Automatically</a></h3>
-								</div>
-							</div>
-
-							<div class="post post-widget">
-								<a class="post-img" href="blog-posx.php"><img src="./img/widget-3.jpg" alt=""></a>
-								<div class="post-body">
-									<h3 class="post-title"><a href="blog-posx.php">Why Node.js Is The Coolest Kid On The Backend Development Block!</a></h3>
-								</div>
-							</div>
-
-							<div class="post post-widget">
-								<a class="post-img" href="blog-posx.php"><img src="./img/widget-4.jpg" alt=""></a>
-								<div class="post-body">
-									<h3 class="post-title"><a href="blog-posx.php">Tell-A-Tool: Guide To Web Design And Development Tools</a></h3>
-								</div>
-							</div>
+                            <?php } ?>		
 						</div>
 						<!-- /post widget -->
 						

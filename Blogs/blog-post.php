@@ -6,7 +6,7 @@ require_once ('connection.php');
 $query_menu_categories = "SELECT
 	*
 FROM
-	categoriges
+	categories
 WHERE
 	id = 16 OR id = 15 OR id = 13 OR id = 9 OR id = 8 OR id = 11  
 ORDER BY id DESC";
@@ -26,7 +26,7 @@ $query = "SELECT
 	p.*, c.title as category, a.name 
 FROM
 	posts p
-	LEFT JOIN categoriges c ON p.category_id = c.id 
+	LEFT JOIN categories c ON p.category_id = c.id 
 	LEFT JOIN authors a ON p.author_id = a.id
 WHERE
 	p.id =".$id;
@@ -40,7 +40,7 @@ $query_most_read = "SELECT
 	p.*, c.title as category, a.name 
 FROM
 	posts p
-	LEFT JOIN categoriges c ON p.category_id = c.id 
+	LEFT JOIN categories c ON p.category_id = c.id 
 	LEFT JOIN authors a ON p.author_id = a.id
 WHERE
 	p.STATUS = 1 AND p.category_id = ".$id."
@@ -63,7 +63,7 @@ $query_featured_posts = "SELECT
 	p.*, c.title as category, a.name 
 FROM
 	posts p
-	LEFT JOIN categoriges c ON p.category_id = c.id 
+	LEFT JOIN categories c ON p.category_id = c.id 
 	LEFT JOIN authors a ON p.author_id = a.id
 WHERE
 	p.STATUS = 1 AND p.category_id = ".$id."
@@ -92,7 +92,7 @@ while ($row = $result_featured_posts->fetch_assoc()) {
 		<!-- /Header -->
 
 		<div id="post-header" class="page-header">
-				<div class="background-img" style="background-image: url('<?php echo $post["thumbnail"] ?>');"></div>
+				<div class="background-img" style="background-image: url('img/<?php echo $post["thumbnail"] ?>');"></div>
 				<div class="container">
 					<div class="row">
 						<div class="col-md-10">
@@ -278,7 +278,7 @@ while ($row = $result_featured_posts->fetch_assoc()) {
                             <?php foreach ($most_read as $post) {
                             ?>
 							<div class="post post-widget">
-								<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="<?php echo $post["thumbnail"] ?>" alt=""></a>
+								<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="img/<?php echo $post["thumbnail"] ?>" alt=""></a>
 								<div class="post-body">
 									<h3 class="post-title"><a href="blog-post.php?id=<?php echo $post["id"] ?>"><?php echo $post["description"] ?></a></h3>
 								</div>
@@ -295,7 +295,7 @@ while ($row = $result_featured_posts->fetch_assoc()) {
 							<?php foreach ($featured_posts as $post) {
 						    ?>
 							<div class="post post-thumb">
-								<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="<?php echo $post["thumbnail"] ?>" alt=""></a>
+								<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="img/<?php echo $post["thumbnail"] ?>" alt=""></a>
 								<div class="post-body">
 									<div class="post-meta">
 										<a class="post-category cat-<?php echo $post["category_id"] % 4 + 1 ?>" href="#"><?php echo $post["category"] ?></a>

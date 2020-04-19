@@ -6,7 +6,7 @@ require_once ('connection.php');
 $query_menu_categories = "SELECT
 	*
 FROM
-	categoriges
+	categories
 WHERE
 	id = 16 OR id = 15 OR id = 13 OR id = 9 OR id = 8 OR id = 11  
 ORDER BY id DESC";
@@ -28,7 +28,7 @@ $query_two_posts = "SELECT
 	p.*, c.title as category, a.name 
 FROM
 	posts p
-	LEFT JOIN categoriges c ON p.category_id = c.id 
+	LEFT JOIN categories c ON p.category_id = c.id 
 	LEFT JOIN authors a ON p.author_id = a.id
 WHERE
 	p.STATUS = 1 
@@ -52,7 +52,7 @@ $query_recent_posts = "SELECT
 	p.*, c.title as category, a.name 
 FROM
 	posts p
-	LEFT JOIN categoriges c ON p.category_id = c.id 
+	LEFT JOIN categories c ON p.category_id = c.id 
 	LEFT JOIN authors a ON p.author_id = a.id
 WHERE
 	p.STATUS = 1 
@@ -71,43 +71,22 @@ while ($row = $result_recent_posts->fetch_assoc()) {
 }        
 
 // Cau lenh truy van
-$query_posts1 = "SELECT
-	p.*, c.title as category, a.name 
-FROM
-	posts p
-	LEFT JOIN categoriges c ON p.category_id = c.id 
-	LEFT JOIN authors a ON p.author_id = a.id
-WHERE
-	p.STATUS = 1 
-ORDER BY
-	p.created_at DESC  LIMIT 8,1 ";
-
-// Thuc thi cau lenh
-$result_posts1 = $conn -> query($query_posts1);
-
-// Tao 1 mang de chua du lieu
-$posts1 = array();
-
-while ($row = $result_posts1->fetch_assoc()) {
-	$posts1[] = $row;
-}
-
-// Cau lenh truy van
 $query_posts = "SELECT
 	p.*, c.title as category, a.name 
 FROM
 	posts p
-	LEFT JOIN categoriges c ON p.category_id = c.id 
+	LEFT JOIN categories c ON p.category_id = c.id 
 	LEFT JOIN authors a ON p.author_id = a.id
 WHERE
 	p.STATUS = 1 
 ORDER BY
-	p.created_at DESC  LIMIT 9,6 ";
+	p.created_at DESC  LIMIT 8,7 ";
 
 // Thuc thi cau lenh
 $result_posts = $conn -> query($query_posts);
 
 // Tao 1 mang de chua du lieu
+$post1 = $result_posts->fetch_assoc();
 $posts = array();
 
 while ($row = $result_posts->fetch_assoc()) {
@@ -119,7 +98,7 @@ $query_featured_posts = "SELECT
 	p.*, c.title as category, a.name 
 FROM
 	posts p
-	LEFT JOIN categoriges c ON p.category_id = c.id 
+	LEFT JOIN categories c ON p.category_id = c.id 
 	LEFT JOIN authors a ON p.author_id = a.id
 WHERE
 	p.STATUS = 1 
@@ -161,7 +140,7 @@ while ($row = $result_featured_posts->fetch_assoc()) {
 					?>
 					<div class="col-md-6">
 						<div class="post post-thumb">
-							<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="<?php echo $post["thumbnail"] ?>" alt="" weight = "600px" height = "300px"></a>
+							<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="img/<?php echo $post["thumbnail"] ?>" alt="" weight = "600px" height = "300px"></a>
 							<div class="post-body">
 								<div class="post-meta">
 									<a class="post-category cat-<?php echo $post["category_id"] % 4 + 1 ?>" href="category.php"><?php echo $post["category"] ?></a>
@@ -191,13 +170,13 @@ while ($row = $result_featured_posts->fetch_assoc()) {
 					?>
 					<div class="col-md-4">
 						<div class="post">
-							<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="<?php echo $post["thumbnail"]; ?>" alt="" width = "400px" height = "250px"></a>
+							<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="img/<?php echo $post["thumbnail"]; ?>" alt="" width = "400px" height = "250px"></a>
 							<div class="post-body">
 								<div class="post-meta">
 									<a class="post-category cat-<?php echo $post["category_id"] % 4 + 1 ?>" href="category.php"><?php echo $post["category"]; ?></a>
 									<span class="post-date"><?php echo $post["created_at"]; ?></span>
 								</div>
-								<h3 class="post-title"><a href="blog-post.php?id=<?php echo $post["id"] ?>?id=<?php echo $post["id"] ?>"><?php echo $post["title"]; ?></a></h3>
+								<h3 class="post-title"><a href="blog-post.php?id=<?php echo $post["id"] ?>"><?php echo $post["title"]; ?></a></h3>
 							</div>
 						</div>
 					</div>
@@ -212,27 +191,25 @@ while ($row = $result_featured_posts->fetch_assoc()) {
 					<div class="col-md-8">
 						<div class="row">
 							<!-- post -->
-							<?php foreach  ($posts1 as $post) { ?>
 							<div class="col-md-12">
 								<div class="post post-thumb">
-									<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="<?php echo $post["thumbnail"]; ?>" alt=""></a>
+									<a class="post-img" href="blog-post.php?id=<?php echo $post1["id"] ?>"><img src="img/<?php echo $post1["thumbnail"]; ?>" alt=""></a>
 									<div class="post-body">
 										<div class="post-meta">
-											<a class="post-category cat-<?php echo $post["category_id"] % 4 + 1 ?>" href="category.php"><?php echo $post["category"]; ?></a>
-											<span class="post-date"><?php echo $post["created_at"]; ?></span>
+											<a class="post-category cat-<?php echo $post1["category_id"] % 4 + 1 ?>" href="category.php"><?php echo $post1["category"]; ?></a>
+											<span class="post-date"><?php echo $post1["created_at"]; ?></span>
 										</div>
-										<h3 class="post-title"><a href="blog-post.php?id=<?php echo $post["id"] ?>"><?php echo $post["title"]; ?></a></h3>
+										<h3 class="post-title"><a href="blog-post.php?id=<?php echo $post1["id"] ?>"><?php echo $post1["title"]; ?></a></h3>
 									</div>
 								</div>
 							</div>
-						    <?php } ?>
 							<!-- /post -->
 
 							<!-- post -->
 							<?php foreach  ($posts as $post) { ?>
 							<div class="col-md-6">
 								<div class="post">
-									<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="<?php echo $post["thumbnail"]; ?>" alt=""  width="400px" height="250px"></a>
+									<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="img/<?php echo $post["thumbnail"]; ?>" alt=""  width="400px" height="250px"></a>
 									<div class="post-body">
 										<div class="post-meta">
 											<a class="post-category cat-<?php echo $post["category_id"] % 4 + 1 ?>" href="category.php"><?php echo $post["category"]; ?></a>
@@ -300,7 +277,7 @@ while ($row = $result_featured_posts->fetch_assoc()) {
 							<?php foreach ($featured_posts as $post) {
 							?>
 							<div class="post post-thumb">
-								<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="<?php echo $post["thumbnail"]; ?>" alt="" weight = "400px" height = "250px"></a>
+								<a class="post-img" href="blog-post.php?id=<?php echo $post["id"] ?>"><img src="img/<?php echo $post["thumbnail"]; ?>" alt="" weight = "400px" height = "250px"></a>
 								<div class="post-body">
 									<div class="post-meta">
 										<a class="post-category cat-<?php echo $post["category_id"] % 4 + 1; ?>" href="category.php"><?php echo $post["category"]; ?></a>

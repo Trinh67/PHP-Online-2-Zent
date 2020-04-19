@@ -6,7 +6,7 @@ require_once ('connection.php');
 $query_menu_categories = "SELECT
 	*
 FROM
-	categoriges
+	categories
 WHERE
 	id = 16 OR id = 15 OR id = 13 OR id = 9 OR id = 8 OR id = 11  
 ORDER BY id DESC";
